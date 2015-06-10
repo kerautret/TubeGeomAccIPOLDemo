@@ -224,7 +224,7 @@ class app(base_app):
         
         f = open(self.work_dir+"output.txt", "w")
         fInfo = open(self.work_dir+"info.txt", "w")
-        command_args = ['tubeAnalyse','-i', self.work_dir + "inputVol_0.off", '-r', str(radius), '-s', "7" ]
+        command_args = ['tubeAnalyse','-i', self.work_dir + "inputVol_0.off", '-r', str(radius), '-s', "5" ]
         command_args += ['-n', "accImage.vol"]
         command_args += ['--computeFiberPatchTrack', " fiber.sdp"] 
         command_args += ['--exportFiberMeshOpti', "fiber.obj"]
