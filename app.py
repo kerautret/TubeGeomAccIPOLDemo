@@ -109,9 +109,10 @@ class app(base_app):
         process the non-standard input
         '''         
         self.cfg['meta']['is3d'] = True
-        self.cfg['meta']['rad'] =  input_info['rad']   
         if self.cfg['meta']['is3d'] :
             baseName = (fnames[0])[0:-4]
+            radius = (fnames[0])[-7:-4]
+            self.cfg['meta']['rad'] = int(radius)
             shutil.copy(self.input_dir +baseName+".off",
                         self.work_dir + 'inputVol_0.off')        
         self.cfg.save()
