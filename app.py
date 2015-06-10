@@ -153,13 +153,7 @@ class app(base_app):
 
         # save and validate the parameters
         try:
-            self.cfg['param']['a'] = kwargs['a']
-            self.cfg['param']['rmin'] = kwargs['rmin']
-            self.cfg['param']['rmax'] = kwargs['rmax']
-            self.cfg['param']['zmin'] = kwargs['zmin']
-            self.cfg['param']['tbin'] = kwargs['tbin']
-            self.cfg['param']['dmax'] = kwargs['dmax']
-            self.cfg['param']['minsize'] = kwargs['minsize']
+            self.cfg['param']['radius'] = kwargs['radius']
 
             self.cfg.save()
         except ValueError:
@@ -226,40 +220,17 @@ class app(base_app):
         could also be called by a batch processor
         this one needs no parameter
         """
-        alpha_res = self.cfg['param']['a']
-        rmin = self.cfg['param']['rmin']
-        rmax = self.cfg['param']['rmax']
-        zmin = self.cfg['param']['zmin']
-        
-        tbin = self.cfg['param']['tbin']        
-        dmax = self.cfg['param']['dmax']
-        minsize = self.cfg['param']['minsize'] 
-
+        radius = self.cfg['param']['radius']
         
         f = open(self.work_dir+"output.txt", "w")
         fInfo = open(self.work_dir+"info.txt", "w")
-        command_args = ['generatePolarZMoveImg','-i', self.work_dir + "inputVol_0.vol", '-c', self.work_dir + "inputVol_0.sdp", '-m', str(rmin),'-M', str(rmax), '--alphaImageHeight', str(alpha_res), '-s', "1", '-o', self.work_dir +'resu.pgm'  ]
-        #command_args += ['--skipLastSlice', "5"]
-        #command_args += ['--skipFirstSlice', "20"]
-        command_args += ['-z', str(zmin)]
-        command_args += ['--minSize', str(minsize)]
-        command_args += ['--dMax', str(dmax)]
-        command_args += ['-b', str(tbin)]
-        command_args += ['--dicomAmplitudeVal', "1430"]
+        command_args = ['tubeAnalyse','-i', self.work_dir + "inputVol_0.off", '-r', str(radius), '-s', 7 ]
+        command_args += ['--exportFiberMeshOpti', "mesh.off"]
 
         p = self.run_proc(command_args, stderr=fInfo, env={'LD_LIBRARY_PATH' : self.bin_dir})
         self.wait_proc(p, timeout=120)
-        pp = self.run_proc(['convert.sh', 'resu.pgm',  'resu.png'], stderr=fInfo, env={'LD_LIBRARY_PATH' : self.bin_dir})
-        self.wait_proc(pp, timeout=self.timeout)
-        ppp = self.run_proc(['convert.sh', 'imgCC.ppm',  'resuCC.png'], stderr=fInfo, env={'LD_LIBRARY_PATH' : self.bin_dir})
-        self.wait_proc(ppp, timeout=self.timeout)
         fInfo.close()
         f.close()
-        #self.runCommand(command_args, f )
-        #f.close()
-        #f = open(self.work_dir+"commands.txt", "w")
-        #f.write(self.list_commands)
-        #f.close()
         return
 
     @cherrypy.expose
