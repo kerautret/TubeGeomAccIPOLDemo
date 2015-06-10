@@ -1,0 +1,17 @@
+
+git clone https://github.com/kerautret/DGtal.git ;
+cd DGtal;
+git checkout BlurredSegmentsBackPort;
+mkdir build; cd build;
+cmake .. -DCMAKE_BUILD_TYPE=Release  -DBUILD_EXAMPLES=FALSE; make -j 4; 
+cd ../.. ;
+
+
+git clone kerrecherche.iutsd.uhp-nancy.fr:/svnDev/TubeAnalyse.git
+
+cd TubeAnalyse; mkdir build; cd build;
+cmake .. -DDGtal_DIR=/home/kerautre/ipol/demo/app/^CbeAnalyse/srcManual/DGtal/build/; make -j 3g
+
+cd ../../../; mkdir bin;
+cd bin; 
+cp ../srcManual/TubeAnalyse/build/tubeAnalyse ./
