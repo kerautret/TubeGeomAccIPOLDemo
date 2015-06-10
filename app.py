@@ -245,8 +245,7 @@ class app(base_app):
         display the algo results
         """
         return self.tmpl_out("result.html",
-                             height=image(self.work_dir
-                                          + 'resu.png').size[1])
+                             height=500)
 
 
 
