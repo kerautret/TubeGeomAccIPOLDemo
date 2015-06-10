@@ -112,7 +112,7 @@ class app(base_app):
         if self.cfg['meta']['is3d'] :
             baseName = (fnames[0])[0:-4]
             radius = (fnames[0])[-7:-4]
-            self.cfg['meta']['rad'] = int(radius)
+            self.cfg['meta']['rad'] = float(radius)
             shutil.copy(self.input_dir +baseName+".off",
                         self.work_dir + 'inputVol_0.off')        
         self.cfg.save()
